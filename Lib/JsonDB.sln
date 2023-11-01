@@ -1,0 +1,37 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.7.34202.233
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JsonDB", "JsonDB.csproj", "{BAF4F71B-EB10-4FE0-B289-3B123E3CA7C3}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Example", "..\Example\Example.csproj", "{EB757141-42F8-458B-BA64-32DCD7FAF21C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "..\Tests\Tests.csproj", "{7444E904-766E-4527-A7FA-BC0F079415C6}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{BAF4F71B-EB10-4FE0-B289-3B123E3CA7C3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BAF4F71B-EB10-4FE0-B289-3B123E3CA7C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BAF4F71B-EB10-4FE0-B289-3B123E3CA7C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BAF4F71B-EB10-4FE0-B289-3B123E3CA7C3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EB757141-42F8-458B-BA64-32DCD7FAF21C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EB757141-42F8-458B-BA64-32DCD7FAF21C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EB757141-42F8-458B-BA64-32DCD7FAF21C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EB757141-42F8-458B-BA64-32DCD7FAF21C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7444E904-766E-4527-A7FA-BC0F079415C6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7444E904-766E-4527-A7FA-BC0F079415C6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7444E904-766E-4527-A7FA-BC0F079415C6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7444E904-766E-4527-A7FA-BC0F079415C6}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {4AD12FA6-F061-4357-84B4-077864AB865A}
+	EndGlobalSection
+EndGlobal
