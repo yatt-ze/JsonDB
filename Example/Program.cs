@@ -28,11 +28,20 @@ namespace Example
                     Console.WriteLine($"ID: {row.GetData("ID")} | Name: {row.GetData("Name")} | Alive: {row.GetData("Alive")}")
                 );
 
-            Console.WriteLine("\nSELECT * FROM People WHERE ID = 1");
+            Console.WriteLine("\nSELECT * FROM People LIMIT 1");
+            Console.WriteLine("=========================================");
+            database.Select("*").From("People")
+                .Limit(1)
+                .Execute()
+                .ForEach(row =>
+                    Console.WriteLine($"ID: {row.GetData("ID")} | Name: {row.GetData("Name")} | Alive: {row.GetData("Alive")}")
+                );
+
+            Console.WriteLine("\nSELECT * FROM People WHERE ID = 3");
             Console.WriteLine("=========================================");
             database.Select("*")
                 .From("People")
-                .Where(row => (int)row.GetData("ID") == 1)
+                .Where(row => (int)row.GetData("ID") == 3)
                 .Execute()
                 .ForEach(row =>
                     Console.WriteLine($"ID: {row.GetData("ID")} | Name: {row.GetData("Name")} | Alive: {row.GetData("Alive")}")

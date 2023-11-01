@@ -8,6 +8,7 @@ namespace JsonDB.Querys
         private List<string> SelectedColumns { get; set; }
         private string TableName { get; set; }
         private List<Table> Tables { get; set; }
+        private int LimitAmount { get; set; }
 
         public SelectQuery(string[] rows, List<Table> tables)
         {
@@ -26,6 +27,12 @@ namespace JsonDB.Querys
         public SelectQuery Where(Func<Row, bool> condition)
         {
             WhereCondition = condition;
+            return this;
+        }
+
+        public SelectQuery Limit(int limit)
+        {
+            LimitAmount = limit;
             return this;
         }
 
@@ -79,9 +86,9 @@ namespace JsonDB.Querys
             }
 
             if (WhereCondition != null)
-            {
                 selectedRows = selectedRows.Where(WhereCondition).ToList();
-            }
+            if (LimitAmount > 0)
+                selectedRows = selectedRows.Take(LimitAmount).ToList();
 
             return selectedRows;
         }
