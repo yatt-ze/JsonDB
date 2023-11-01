@@ -36,9 +36,18 @@ namespace JsonDB.Querys
                 throw new JsonDbException($"Table '{TableName}' not found.");
 
             Table queryTable = new Table(selectedTable.Name);
-            foreach (var c in selectedTable.Columns.Where(c => SelectedColumns.Contains(c.Name)))
+
+            if (SelectedColumns.Contains("*"))
             {
-                queryTable.Columns.Add(c);
+                queryTable = selectedTable;
+                SelectedColumns.Clear();
+                SelectedColumns.AddRange(selectedTable.Columns.Select(c => c.Name));
+            }
+            else
+            {
+                queryTable.Columns.AddRange(selectedTable.Columns
+                .Where(c => SelectedColumns.Contains(c.Name))
+                .ToList());
             }
 
             List<Row> selectedRows = new List<Row>();

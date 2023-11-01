@@ -32,9 +32,9 @@ namespace JsonDB.Querys
             Row row = new Row(selectedTable);
             for (int i = 0; i < Data.Count; i++)
             {
-                if (Data[i] == null && !selectedTable.Columns[i].IsNullable())
+                if (Data[i] == null && !selectedTable.Columns[i].Nullable)
                     throw new JsonDbException($"Data at index {i} was Null, Column {selectedTable.Columns[i].Name} is not Nullable");
-                if (Data[i] == null && selectedTable.Columns[i].IsNullable())
+                if (Data[i] == null && selectedTable.Columns[i].Nullable)
                     i++;
                 if (!selectedTable.Columns[i].MatchType(Data[i].GetType()))
                     throw new JsonDbException($"Data at index {i} did not match column type {selectedTable.Columns[i].Type}");

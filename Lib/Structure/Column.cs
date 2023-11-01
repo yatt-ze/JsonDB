@@ -4,7 +4,7 @@
     {
         public ColumnType Type { get; set; }
         public string Name { get; set; }
-        private bool Nullable { get; set; }
+        public bool Nullable { get; set; }
 
         public Column(ColumnType type, string name, bool nullable = true)
         {
@@ -12,8 +12,6 @@
             Name = name;
             Nullable = nullable;
         }
-
-        public bool IsNullable() => Nullable;
 
         public bool MatchType(Type? type)
         {

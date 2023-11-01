@@ -14,35 +14,37 @@ namespace Example
                 .AddColumn(ColumnType.String, "Name")
                 .AddColumn(ColumnType.Bool, "Alive");
 
-            database.Create("Places")
-                .AddColumn(ColumnType.Int, "ID", false)
-                .AddColumn(ColumnType.String, "Name")
-                .AddColumn(ColumnType.String, "Address");
-
             database.Insert(1, "John", true).Into("People").Execute();
             database.Insert(2, "Alice", false).Into("People").Execute();
             database.Insert(3, "Bob", true).Into("People").Execute();
-            database.Insert(1, "Doctors", "123 Doctor Street").Into("Places").Execute();
-            database.Insert(2, "School", "456 School Street").Into("Places").Execute();
 
             database.Test();
 
-            Console.WriteLine("SELECT ID, Alive FROM People WHERE ALIVE = true");
+            Console.WriteLine("SELECT * FROM People");
+            Console.WriteLine("=========================================");
+            database.Select("*").From("People")
+                .Execute()
+                .ForEach(row =>
+                    Console.WriteLine($"ID: {row.GetData("ID")} | Name: {row.GetData("Name")} | Alive: {row.GetData("Alive")}")
+                );
+
+            Console.WriteLine("\nSELECT * FROM People WHERE ID = 1");
+            Console.WriteLine("=========================================");
+            database.Select("*")
+                .From("People")
+                .Where(row => (int)row.GetData("ID") == 1)
+                .Execute()
+                .ForEach(row =>
+                    Console.WriteLine($"ID: {row.GetData("ID")} | Name: {row.GetData("Name")} | Alive: {row.GetData("Alive")}")
+                );
+
+            Console.WriteLine("\nSELECT ID, Alive FROM People WHERE Alive = true");
             Console.WriteLine("=========================================");
             database.Select("ID", "Alive").From("People")
                 .Where(row => (bool)row.GetData("Alive") == true)
                 .Execute()
                 .ForEach(row =>
                     Console.WriteLine($"ID: {row.GetData("ID")} | Alive: {row.GetData("Alive")}")
-                );
-
-            Console.WriteLine("\nSELECT ID, Address FROM Places");
-            Console.WriteLine("=========================================");
-            database.Select("ID", "Address")
-                .From("Places")
-                .Execute()
-                .ForEach(row =>
-                    Console.WriteLine($"ID: {row.GetData("ID")} | Address: {row.GetData("Address")}")
                 );
         }
     }
