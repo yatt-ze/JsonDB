@@ -14,11 +14,11 @@ namespace Example
                 .AddColumn(ColumnType.String, "Name")
                 .AddColumn(ColumnType.Bool, "Alive");
 
+            Console.WriteLine(database.Save());
+
             database.Insert(1, "John", true).Into("People").Execute();
             database.Insert(2, "Alice", false).Into("People").Execute();
             database.Insert(3, "Bob", true).Into("People").Execute();
-
-            database.Test();
 
             Console.WriteLine("SELECT * FROM People");
             Console.WriteLine("=========================================");
@@ -55,6 +55,18 @@ namespace Example
                 .ForEach(row =>
                     Console.WriteLine($"ID: {row.GetData("ID")} | Alive: {row.GetData("Alive")}")
                 );
+
+            Console.WriteLine("\nDELETE FROM People WHERE Alive = true");
+            Console.WriteLine("=========================================");
+            database.Delete()
+                .From("People")
+                .Where(row => (bool)row.GetData("Alive") == true)
+                .Execute();
+            database.Select("*").From("People")
+               .Execute()
+               .ForEach(row =>
+                   Console.WriteLine($"ID: {row.GetData("ID")} | Name: {row.GetData("Name")} | Alive: {row.GetData("Alive")}")
+               );
         }
     }
 }

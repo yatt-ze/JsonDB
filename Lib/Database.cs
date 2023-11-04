@@ -1,4 +1,5 @@
-﻿using System.Text.Json;
+﻿using System.Collections.Generic;
+using System.Text.Json;
 using JsonDB.Querys;
 using JsonDB.Structure;
 
@@ -8,14 +9,38 @@ namespace JsonDB
     {
         public List<Table> Tables { get; set; }
 
-        public Database(string dbPath = "")
+        public Database()
         {
             Tables = new List<Table>();
         }
 
-        public Table Create(string Name)
+        public bool Open(string JsonData)
         {
-            Table table = new Table(Name);
+            if (!string.IsNullOrEmpty(JsonData))
+            {
+                try
+                {
+                    List<Table>? tempTables = JsonSerializer.Deserialize<List<Table>>(JsonData);
+                    if (tempTables != null)
+                    {
+                        Tables.Clear();
+                        Tables = tempTables;
+                        return true;
+                    }
+                }
+                catch
+                {
+                    return false;
+                }
+            }
+            return false;
+        }
+
+        public string Save() => JsonSerializer.Serialize(Tables);
+
+        public Table Create(string tableName)
+        {
+            Table table = new Table(tableName);
             Tables.Add(table);
             return table;
         }
@@ -30,14 +55,9 @@ namespace JsonDB
             return new SelectQuery(rows, Tables);
         }
 
-        public void Test()
+        public DeleteQuery Delete()
         {
-            // Serialize the table to JSON and print it
-            string json = JsonSerializer.Serialize(Tables, new JsonSerializerOptions
-            {
-                WriteIndented = true // for pretty-printing the JSON
-            });
-            Console.WriteLine(json);
+            return new DeleteQuery(Tables);
         }
     }
 }

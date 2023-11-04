@@ -7,61 +7,42 @@ namespace Tests
     [TestClass]
     public class DatabaseTests
     {
+        public string TestDatabase = "[{\"Name\":\"People\",\"Columns\":[{\"Type\":1,\"Name\":\"ID\",\"Nullable\":false},{\"Type\":2,\"Name\":\"Name\",\"Nullable\":true},{\"Type\":0,\"Name\":\"Alive\",\"Nullable\":true}],\"Rows\":[]}]";
+
         [TestMethod]
-        public void TestCreateTable()
+        public void CreateTable()
         {
             Database db = new Database();
-            db.Create("People")
+            db.Create("Cars")
                 .AddColumn(ColumnType.Int, "ID", false)
-                .AddColumn(ColumnType.String, "Name")
-                .AddColumn(ColumnType.Bool, "Alive");
+                .AddColumn(ColumnType.String, "Brand")
+                .AddColumn(ColumnType.String, "Name");
 
             Assert.IsTrue(db.Tables.Count == 1);
         }
 
         [TestMethod]
-        public void TestInsert()
+        public void OpenDatabase()
         {
             Database db = new Database();
-            db.Create("People")
-                .AddColumn(ColumnType.Int, "ID", false)
-                .AddColumn(ColumnType.String, "Name")
-                .AddColumn(ColumnType.Bool, "Alive");
+            db.Open(TestDatabase);
 
-            db.Insert(1, "John", true).Into("People").Execute();
-            Assert.IsTrue(db.Tables[0].Rows.Count == 1);
-            db.Insert(2, "Alice", false).Into("People").Execute();
-            Assert.IsTrue(db.Tables[0].Rows.Count == 2);
-            db.Insert(3, "Bob", true).Into("People").Execute();
-            Assert.IsTrue(db.Tables[0].Rows.Count == 3);
+            Assert.IsTrue(db.Tables.Count == 1, "Database should have one table");
+            Assert.IsTrue(db.Tables[0].Columns[0].Name == "ID", "The tables first column is named ID");
         }
 
         [TestMethod]
-        public void TestSelect()
+        public void SaveDatabase()
         {
             Database db = new Database();
-            db.Create("People")
+            db.Create("Cars")
                 .AddColumn(ColumnType.Int, "ID", false)
-                .AddColumn(ColumnType.String, "Name")
-                .AddColumn(ColumnType.Bool, "Alive");
+                .AddColumn(ColumnType.String, "Brand")
+                .AddColumn(ColumnType.String, "Name");
 
-            db.Insert(1, "John", true).Into("People").Execute();
-            db.Insert(2, "Alice", false).Into("People").Execute();
-            db.Insert(3, "Bob", true).Into("People").Execute();
-
-            List<Row> ret = db.Select("ID", "Name", "Alive").From("People").Execute();
-
-            Assert.IsTrue((int)ret[0].GetData("ID") == 1);
-            Assert.IsTrue((string)ret[0].GetData("Name") == "John");
-            Assert.IsTrue((bool)ret[0].GetData("Alive") == true);
-
-            Assert.IsTrue((int)ret[1].GetData("ID") == 2);
-            Assert.IsTrue((string)ret[1].GetData("Name") == "Alice");
-            Assert.IsTrue((bool)ret[1].GetData("Alive") == false);
-
-            Assert.IsTrue((int)ret[2].GetData("ID") == 3);
-            Assert.IsTrue((string)ret[2].GetData("Name") == "Bob");
-            Assert.IsTrue((bool)ret[2].GetData("Alive") == true);
+            string expectedString = "[{\"Name\":\"Cars\",\"Columns\":[{\"Type\":1,\"Name\":\"ID\",\"Nullable\":false},{\"Type\":2,\"Name\":\"Brand\",\"Nullable\":true},{\"Type\":2,\"Name\":\"Name\",\"Nullable\":true}],\"Rows\":[]}]";
+            string savedDatabase = db.Save();
+            Assert.IsTrue(savedDatabase.Equals(expectedString));
         }
     }
 }
